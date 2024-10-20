@@ -18,6 +18,7 @@ class ProductDetails : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.product_details)
+
         productTitle = findViewById(R.id.productTitle)
         productImage = findViewById(R.id.productImage)
 

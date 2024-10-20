@@ -6,11 +6,13 @@ data class products(
     val id: Int,
     val name_product: String,
     val price: String,
+    val description : String,
     val image_product: String,
     val category_id: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -21,6 +23,7 @@ data class products(
         parcel.writeInt(id)
         parcel.writeString(name_product)
         parcel.writeString(price)
+        parcel.writeString(description)
         parcel.writeString(image_product)
         parcel.writeInt(category_id)
     }

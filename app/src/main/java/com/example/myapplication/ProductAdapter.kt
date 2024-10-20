@@ -7,11 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.text.NumberFormat
+import java.util.Locale
 
 class ProductAdapter(
     private val productList: List<products>,
     private val onProductClick: (products) -> Unit // Ensure the type is explicitly defined
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
     class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val productImage: ImageView = view.findViewById(R.id.productImage)  // ImageView để hiển thị ảnh
         val productName: TextView = view.findViewById(R.id.productName)
@@ -26,7 +29,14 @@ class ProductAdapter(
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
         holder.productName.text = product.name_product
-        holder.productPrice.text = "Price: ${product.price}"
+
+        val price = product.price.toLongOrNull()
+        if (price != null) {
+            val formattedPrice = NumberFormat.getInstance(Locale("vi", "VN")).format(price) + " VNĐ"
+            holder.productPrice.text = formattedPrice
+        } else {
+            holder.productPrice.text = product.price
+        }
 
         // Tải ảnh sản phẩm bằng Glide
         Glide.with(holder.productImage.context)
@@ -37,7 +47,6 @@ class ProductAdapter(
             onProductClick(product)
         }
     }
-
 
     override fun getItemCount(): Int {
         return productList.size

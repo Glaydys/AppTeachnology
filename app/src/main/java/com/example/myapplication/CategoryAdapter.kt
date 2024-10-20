@@ -42,7 +42,5 @@ class CategoryAdapter(private val categories: List<category>) : RecyclerView.Ada
         holder.imgDanhmuc.setImageResource(getImageResourceId(category.name_category))
     }
 
-
-
     override fun getItemCount() = categories.size
 }

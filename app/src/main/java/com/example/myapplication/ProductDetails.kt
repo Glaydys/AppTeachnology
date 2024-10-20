@@ -19,7 +19,6 @@ class ProductDetails : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.product_details)
 
-        // Initialize views
         productTitle = findViewById(R.id.productTitle)
         productImage = findViewById(R.id.productImage)
 
@@ -35,7 +34,6 @@ class ProductDetails : AppCompatActivity() {
                 .into(productImage)
         } else {
             Log.e(TAG, "No product data received")
-            // Optionally, handle the case where the product is null
         }
     }
 }

@@ -33,7 +33,6 @@ class ProductAdapter(
             .load("http://192.168.2.22:3000${product.image_product}") // Ghép URL server và đường dẫn hình ảnh
             .into(holder.productImage)
 
-
         holder.itemView.setOnClickListener {
             onProductClick(product)
         }

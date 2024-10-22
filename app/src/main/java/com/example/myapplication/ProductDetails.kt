@@ -48,11 +48,11 @@ class ProductDetails : AppCompatActivity() {
             }
 
             Glide.with(this)
-                .load("http://192.168.2.22:3000${product.image_product}")
+                .load("http://192.168.1.12:3000${product.image_product}")
                 .into(productImage)
 
             Glide.with(this)
-                .load("http://192.168.2.22:3000${product.image_product}")
+                .load("http://192.168.1.12:3000${product.image_product}")
                 .into(imgProductImage)
 
         } else {

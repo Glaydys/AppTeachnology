@@ -40,7 +40,7 @@ class ProductAdapter(
 
         // Tải ảnh sản phẩm bằng Glide
         Glide.with(holder.productImage.context)
-            .load("http://192.168.2.22:3000${product.image_product}") // Ghép URL server và đường dẫn hình ảnh
+            .load("http://192.168.1.12:3000${product.image_product}") // Ghép URL server và đường dẫn hình ảnh
             .into(holder.productImage)
 
         holder.itemView.setOnClickListener {

@@ -24,12 +24,12 @@ class CategoryAdapter(private val categories: List<category>) : RecyclerView.Ada
     fun getImageResourceId(name: String): Int {
         return when (name) {
             "Điện thoại" -> R.drawable.img1
-            "Máy tính bảng" -> R.drawable.img2
-            "Laptop" -> R.drawable.img3
-            "Đồng hồ" -> R.drawable.img4
-            "Máy tính để bàn" -> R.drawable.img5
-            "Máy in" -> R.drawable.img6
-            "Máy ảnh" -> R.drawable.img7
+            "Máy tính bảng" -> R.drawable.img6
+            "Laptop" -> R.drawable.img2
+            "Đồng hồ" -> R.drawable.img3
+            "Máy tính để bàn" -> R.drawable.img4
+            "Máy in" -> R.drawable.img7
+            "Máy ảnh" -> R.drawable.img5
             else -> R.drawable.img
         }
     }

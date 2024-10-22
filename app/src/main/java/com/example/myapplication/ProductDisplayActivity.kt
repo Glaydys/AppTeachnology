@@ -11,6 +11,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+import androidx.recyclerview.widget.GridLayoutManager
+
 class ProductDisplayActivity : AppCompatActivity() {
 
     private lateinit var productRecyclerView: RecyclerView
@@ -22,7 +24,8 @@ class ProductDisplayActivity : AppCompatActivity() {
         setContentView(R.layout.activity_product_display)
 
         productRecyclerView = findViewById(R.id.productRecyclerView)
-        productRecyclerView.layoutManager = LinearLayoutManager(this)
+        // Sử dụng GridLayoutManager để hiển thị 2 cột
+        productRecyclerView.layoutManager = GridLayoutManager(this, 2) // 2 là số cột
 
         // Lấy category_id từ Intent
         val categoryId = intent.getIntExtra("category_id", -1)
@@ -36,7 +39,6 @@ class ProductDisplayActivity : AppCompatActivity() {
     }
 
     private fun fetchProductsByCategory(categoryId: Int) {
-        // Tạo Retrofit instance
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())

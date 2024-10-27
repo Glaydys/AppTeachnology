@@ -1,15 +1,26 @@
 package com.example.myapplication
 
+<<<<<<< HEAD
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+=======
+import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+>>>>>>> ae13b5f573d30982adaa34d4fd1f9b56bcddfe08
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+<<<<<<< HEAD
+=======
+
+>>>>>>> ae13b5f573d30982adaa34d4fd1f9b56bcddfe08
 import androidx.recyclerview.widget.GridLayoutManager
 
 class ProductDisplayActivity : AppCompatActivity() {
@@ -63,16 +74,26 @@ class ProductDisplayActivity : AppCompatActivity() {
             }
         })
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> ae13b5f573d30982adaa34d4fd1f9b56bcddfe08
     private fun showProducts(products: List<products>) {
         if (products.isEmpty()) {
             Log.e(TAG, "Không có sản phẩm nào cho danh mục này")
             return
         }
+<<<<<<< HEAD
         productRecyclerView.adapter = ProductAdapter(products) { product ->
             Log.d(TAG, "Chọn sản phẩm: $product")
             val intent = Intent(this, ProductDetails::class.java)
             intent.putExtra("product", product)
             startActivity(intent)
+=======
+
+        productRecyclerView.adapter = ProductAdapter(products) { product ->
+            Log.d(TAG, "Chọn sản phẩm: $product")
+>>>>>>> ae13b5f573d30982adaa34d4fd1f9b56bcddfe08
         }
     }
 }

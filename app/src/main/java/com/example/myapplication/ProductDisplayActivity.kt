@@ -1,16 +1,15 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
 import androidx.recyclerview.widget.GridLayoutManager
 
 class ProductDisplayActivity : AppCompatActivity() {
@@ -64,15 +63,16 @@ class ProductDisplayActivity : AppCompatActivity() {
             }
         })
     }
-
     private fun showProducts(products: List<products>) {
         if (products.isEmpty()) {
             Log.e(TAG, "Không có sản phẩm nào cho danh mục này")
             return
         }
-
         productRecyclerView.adapter = ProductAdapter(products) { product ->
             Log.d(TAG, "Chọn sản phẩm: $product")
+            val intent = Intent(this, ProductDetails::class.java)
+            intent.putExtra("product", product)
+            startActivity(intent)
         }
     }
 }

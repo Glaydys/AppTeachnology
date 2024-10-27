@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="real">Hàng chính hãng <b>100%</b></string>
+    <string name="mua"><b>MUA NGAY</b>\nGiao hàng tận nơi</string>
+</resources>

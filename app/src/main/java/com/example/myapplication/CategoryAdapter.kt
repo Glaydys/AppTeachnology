@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Retrofit.category
+
 class CategoryAdapter(private val categories: List<category>) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -13,7 +15,7 @@ class CategoryAdapter(private val categories: List<category>) : RecyclerView.Ada
         val txtDanhmuc: TextView = view.findViewById(R.id.txtDanhmuc)
     }
 
-    var onCategoryClick: (category) -> Unit = {}
+    var onCategoryClick: (com.example.myapplication.Retrofit.category) -> Unit = {}
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)

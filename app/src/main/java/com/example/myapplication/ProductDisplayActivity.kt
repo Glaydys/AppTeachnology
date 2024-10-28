@@ -11,11 +11,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.myapplication.Retrofit.ApiService
+import com.example.myapplication.Retrofit.products
 
 class ProductDisplayActivity : AppCompatActivity() {
 
     private lateinit var productRecyclerView: RecyclerView
-    private val BASE_URL = "http://192.168.1.12:3003/"
+    private val BASE_URL = "http://"+IP_ADDRESS+":3003/"
     private val TAG = "ProductDisplayActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +45,7 @@ class ProductDisplayActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val api = retrofit.create(MyApi::class.java)
+        val api = retrofit.create(ApiService::class.java)
 
         // Gọi API để lấy sản phẩm theo danh mục
         api.getProducts().enqueue(object : Callback<List<products>> {

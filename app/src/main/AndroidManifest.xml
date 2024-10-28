@@ -26,6 +26,10 @@
         <activity android:name=".run" android:exported="true" />
         <activity android:name=".ProductDetails" android:exported="true" />
         <activity android:name=".ProductDisplayActivity" android:exported="true" />
+        <activity android:name=".SearchActivity" android:exported="true" />
+        <activity android:name=".LoginActivity" android:exported="true" />
+        <activity android:name=".RegisterActivity" android:exported="true" />
+        <activity android:name=".UserInfoActivity" android:exported="true" />
     </application>
 
 </manifest>

@@ -1,4 +1,4 @@
-package com.example.myapplication
+package com.example.myapplication.Retrofit
 
 data class category(
     val category_id: Int,

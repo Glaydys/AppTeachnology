@@ -1,11 +1,18 @@
 package com.example.myapplication
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.Retrofit.ApiService
+import com.example.myapplication.Retrofit.category
+import com.example.myapplication.Retrofit.products
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var productRecyclerViews: List<RecyclerView>
-    private val BASE_URL = "http://192.168.1.12:3003/" // Ensure correct IP and port
+    private val BASE_URL = "http://"+IP_ADDRESS+":3003/" // Ensure correct IP and port
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +51,32 @@ class MainActivity : AppCompatActivity() {
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
 
+        // chuyen sang searchactivity
+        val tv_search: TextView = findViewById(R.id.tv_search)
+        tv_search.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var intent = Intent(this@MainActivity, SearchActivity::class.java)
+                startActivity(intent)
+            }
+        })
+
+        // chuyen sang LoginActivity
+        val btn_login: ImageView = findViewById(R.id.login)
+        btn_login.setOnClickListener{
+            val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+            val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+            // Nếu đã đăng nhập, chuyển đến trang thông tin người dùng
+            if (isLoggedIn) {
+                val intent = Intent(this@MainActivity, UserInfoActivity::class.java)
+                startActivity(intent)
+            } else {
+                // Nếu chưa đăng nhập, chuyển đến LoginActivity
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
         // Fetch categories
         fetchCategories()
     }
@@ -54,7 +87,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val api = retrofit.create(MyApi::class.java)
+        val api = retrofit.create(ApiService::class.java)
 
         api.getCategories().enqueue(object : Callback<List<category>> {
             override fun onResponse(
@@ -98,7 +131,7 @@ class MainActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        val api = retrofit.create(MyApi::class.java)
+        val api = retrofit.create(ApiService::class.java)
 //end
         api.getProducts().enqueue(object : Callback<List<products>> {
             override fun onResponse(call: Call<List<products>>, response: Response<List<products>>) {

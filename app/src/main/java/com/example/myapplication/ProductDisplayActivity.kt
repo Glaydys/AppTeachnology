@@ -11,13 +11,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.myapplication.Retrofit.ApiService
 import com.example.myapplication.Retrofit.products
+import com.example.myapplication.Retrofit.ApiService
 
 class ProductDisplayActivity : AppCompatActivity() {
 
     private lateinit var productRecyclerView: RecyclerView
-    private val BASE_URL = "http://"+IP_ADDRESS+":3003/"
+    private val BASE_URL = "http://$IP_ADDRESS:3003/"
     private val TAG = "ProductDisplayActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {

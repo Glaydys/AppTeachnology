@@ -7,10 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.myapplication.Retrofit.products
 import java.text.NumberFormat
 import java.util.Locale
-
+import com.example.myapplication.Retrofit.products
 class ProductAdapter(
     private val productList: List<products>,
     private val onProductClick: (products) -> Unit // Ensure the type is explicitly defined
@@ -41,7 +40,7 @@ class ProductAdapter(
 
         // Tải ảnh sản phẩm bằng Glide
         Glide.with(holder.productImage.context)
-            .load("http://"+IP_ADDRESS+":3000${product.image_product}") // Ghép URL server và đường dẫn hình ảnh
+            .load("http://$IP_ADDRESS:3000/${product.image_product}") // Ghép URL server và đường dẫn hình ảnh
             .into(holder.productImage)
 
         holder.itemView.setOnClickListener {

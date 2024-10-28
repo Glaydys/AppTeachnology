@@ -12,14 +12,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+import android.content.Intent // Nhớ thêm import cho Intent
+
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        var buttonRegister: Button = findViewById(R.id.buttonRegister)
-        var editTextUsername: EditText = findViewById(R.id.editTextUsername)
-        var editTextPassword: EditText = findViewById(R.id.editTextPassword)
-        var editTextEmail: EditText = findViewById(R.id.editTextEmail)
+
+        val buttonRegister: Button = findViewById(R.id.buttonRegister)
+        val editTextUsername: EditText = findViewById(R.id.editTextUsername)
+        val editTextPassword: EditText = findViewById(R.id.editTextPassword)
+        val editTextEmail: EditText = findViewById(R.id.editTextEmail)
 
         buttonRegister.setOnClickListener {
             // Xử lý đăng ký
@@ -33,8 +36,12 @@ class RegisterActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {
                     if (response.isSuccessful) {
                         val username = user.username
-                        Toast.makeText(this@RegisterActivity, "Register succesfull $username!", Toast.LENGTH_LONG).show()
-                        // Chuyển về trang đăng nhập hoặc xử lý khác
+                        Toast.makeText(this@RegisterActivity, "Đăng ký thành công $username!", Toast.LENGTH_LONG).show()
+
+                        // Chuyển đến trang đăng nhập sau khi đăng ký thành công
+                        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish() // Kết thúc hoạt động này để không quay lại được
                     } else {
                         Toast.makeText(this@RegisterActivity, "Lỗi: ${response.message()}", Toast.LENGTH_LONG).show()
                     }

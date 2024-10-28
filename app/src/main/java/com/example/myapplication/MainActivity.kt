@@ -4,26 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Retrofit.ApiService
-import com.example.myapplication.Retrofit.category
-import com.example.myapplication.Retrofit.products
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.myapplication.Retrofit.category
+import com.example.myapplication.Retrofit.products
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var categoryRecyclerView: RecyclerView
     private lateinit var productRecyclerViews: List<RecyclerView>
-    private val BASE_URL = "http://"+IP_ADDRESS+":3003/" // Ensure correct IP and port
+    private val BASE_URL = "http://$IP_ADDRESS:3003/"
     private val TAG = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +32,6 @@ class MainActivity : AppCompatActivity() {
         categoryRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
-        // list of RecyclerViews for products
         productRecyclerViews = listOf(
             findViewById(R.id.productRecyclerView),
             findViewById(R.id.productRecyclerView2),
@@ -45,40 +42,41 @@ class MainActivity : AppCompatActivity() {
             findViewById(R.id.productRecyclerView7)
         )
 
-        // LayoutManager for each RecyclerView
         productRecyclerViews.forEach { recyclerView ->
             recyclerView.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
 
-        // chuyen sang searchactivity
-        val tv_search: TextView = findViewById(R.id.tv_search)
-        tv_search.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                var intent = Intent(this@MainActivity, SearchActivity::class.java)
-                startActivity(intent)
-            }
-        })
+        fetchCategories()
 
-        // chuyen sang LoginActivity
-        val btn_login: ImageView = findViewById(R.id.login)
-        btn_login.setOnClickListener{
+        // User image
+        val userImg: ImageView = findViewById(R.id.user)
+
+        userImg.setOnClickListener {
             val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
             val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
-            // Nếu đã đăng nhập, chuyển đến trang thông tin người dùng
             if (isLoggedIn) {
-                val intent = Intent(this@MainActivity, UserInfoActivity::class.java)
+                val intent = Intent(this, UserDetails::class.java)
                 startActivity(intent)
             } else {
-                // Nếu chưa đăng nhập, chuyển đến LoginActivity
-                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
         }
 
-        // Fetch categories
-        fetchCategories()
+        updateUserImage(userImg)
+    }
+
+    private fun updateUserImage(userImg: ImageView) {
+        val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+        if (isLoggedIn) {
+            userImg.setImageResource(R.drawable.user2)
+        } else {
+            userImg.setImageResource(R.drawable.user)
+        }
     }
 
     private fun fetchCategories() {
@@ -96,14 +94,10 @@ class MainActivity : AppCompatActivity() {
             ) {
                 if (response.isSuccessful) {
                     val categories = response.body() ?: emptyList()
-                    categoryRecyclerView.adapter = CategoryAdapter(categories)
-
-                    // Gắn adapter cho categoryRecyclerView với onCategoryClick
                     categoryRecyclerView.adapter = CategoryAdapter(categories).apply {
                         onCategoryClick = { selectedCategory ->
-                            // Khi người dùng click vào danh mục, chuyển qua ProductDisplayActivity
-                            val intent =
-                                Intent(this@MainActivity, ProductDisplayActivity::class.java)
+                            // When user clicks on category, go to ProductDisplayActivity
+                            val intent = Intent(this@MainActivity, ProductDisplayActivity::class.java)
                             intent.putExtra("category_id", selectedCategory.category_id)
                             intent.putExtra("category_name", selectedCategory.name_category)
                             startActivity(intent)
@@ -124,7 +118,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // Định nghĩa hàm fetchProductsByCategory
     private fun fetchProductsByCategory(categoryId: Int, recyclerViewIndex: Int) {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -132,13 +125,12 @@ class MainActivity : AppCompatActivity() {
             .build()
 
         val api = retrofit.create(ApiService::class.java)
-//end
+
         api.getProducts().enqueue(object : Callback<List<products>> {
             override fun onResponse(call: Call<List<products>>, response: Response<List<products>>) {
                 if (response.isSuccessful) {
                     response.body()?.let { allProducts ->
                         Log.d(TAG, "Fetched products: $allProducts")
-                        // Filter products by categoryId
                         val filteredProducts = allProducts.filter { it.category_id == categoryId }
                         showProducts(filteredProducts, recyclerViewIndex)
                     } ?: Log.e(TAG, "No products found")
@@ -152,7 +144,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-
 
     private fun showProducts(products: List<products>, recyclerViewIndex: Int) {
         if (recyclerViewIndex >= 0 && recyclerViewIndex < productRecyclerViews.size) {

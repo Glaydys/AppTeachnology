@@ -82,13 +82,6 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Lịch sử mua hàng >"
-                android:textSize="15sp"
-                android:gravity="end"/>
         </LinearLayout>
 
         <LinearLayout
@@ -262,15 +255,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Gợi ý"
+                android:text="Lịch sử mua hàng"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
         </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/productRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"/>
-        </LinearLayout>
+    </LinearLayout>
 </ScrollView>

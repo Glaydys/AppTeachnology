@@ -19,7 +19,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class UserDetails : AppCompatActivity() {
-    private lateinit var productRecyclerView: RecyclerView
     private val BASE_URL = "http://$IP_ADDRESS:3003/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,11 +29,6 @@ class UserDetails : AppCompatActivity() {
         val username = sharedPreferences.getString("username", "User")
         val textViewUsername: TextView = findViewById(R.id.username)
         textViewUsername.text = "$username"
-
-        productRecyclerView = findViewById(R.id.productRecyclerView)
-        productRecyclerView.layoutManager = GridLayoutManager(this, 2)
-
-        fetchProducts()
 
         // Set user image based on login status
         val userImg: ImageView = findViewById(R.id.userimg)
@@ -52,38 +46,5 @@ class UserDetails : AppCompatActivity() {
             userImg.setImageResource(R.drawable.user1) // Default to user1 image
         }
     }
-    private fun fetchProducts() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val api = retrofit.create(ApiService::class.java)
-        api.getProducts().enqueue(object : Callback<List<products>> {
-            override fun onResponse(call: Call<List<products>>, response: Response<List<products>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { allProducts ->
-                        Log.d(TAG, "Fetched products: $allProducts")
-                        showProducts(allProducts)
-                    } ?: Log.e(TAG, "No products found")
-                } else {
-                    Log.e(TAG, "Error fetching products: ${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<List<products>>, t: Throwable) {
-                Log.e(TAG, "Failed to fetch products: ${t.message}")
-            }
-        })
-    }
-    private fun showProducts(products: List<products>) {
-        val productAdapter = ProductAdapter(products) { product ->
-            Log.d(TAG, "Selected Product: $product")
-
-            val intent = Intent(this, ProductDetails::class.java)
-            intent.putExtra("product", product)
-            startActivity(intent)
-        }
-        productRecyclerView.adapter = productAdapter
-    }
 }

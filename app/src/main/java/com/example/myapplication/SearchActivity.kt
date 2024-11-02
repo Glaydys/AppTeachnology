@@ -117,8 +117,6 @@ class SearchActivity : AppCompatActivity() {
             }
             filteredList.addAll(results)
 
-            filteredList.addAll(results)
-
             // Kiểm tra nếu không có kết quả
             if (filteredList.isEmpty()) {
                 noResultsTextView.visibility = View.VISIBLE // Hiện thông báo

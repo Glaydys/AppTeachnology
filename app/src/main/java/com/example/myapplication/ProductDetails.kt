@@ -1,7 +1,9 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +31,14 @@ class ProductDetails : AppCompatActivity() {
         imgProductImage = findViewById(R.id.imgProductImage)
         txtProductDescription  = findViewById(R.id.txtProductDescription)
 
-
+        // chuyen sang searchactivity
+        val tv_search: TextView = findViewById(R.id.search_bar)
+        tv_search.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var intent = Intent(this@ProductDetails, SearchActivity::class.java)
+                startActivity(intent)
+            }
+        })
         // Get product information from intent
         val product = intent.getParcelableExtra<products>("product")
 
@@ -51,7 +60,7 @@ class ProductDetails : AppCompatActivity() {
                 .into(productImage)
 
             Glide.with(this)
-                .load("http://$IP_ADDRESS:3003/${product.image_product}")
+                .load("http://$IP_ADDRESS:3000/${product.image_product}")
                 .into(imgProductImage)
 
         } else {

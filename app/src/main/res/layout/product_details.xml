@@ -16,7 +16,7 @@
             android:background="@drawable/rounded"
             android:padding="10dp"
             android:gravity="end">
-            <EditText
+            <TextView
                 android:id="@+id/search_bar"
                 android:layout_width="0dp"
                 android:layout_height="40dp"

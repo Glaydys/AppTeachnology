@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +48,15 @@ class MainActivity : AppCompatActivity() {
             recyclerView.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         }
+
+        // chuyen sang searchactivity
+        val tv_search: TextView = findViewById(R.id.tv_search)
+        tv_search.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                var intent = Intent(this@MainActivity, SearchActivity::class.java)
+                startActivity(intent)
+            }
+        })
 
         fetchCategories()
 

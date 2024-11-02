@@ -9,10 +9,10 @@ import retrofit2.http.POST
 
 interface ApiService {
     @POST("user/login")
-    fun login(@Body user: User): Call<LoginResponse>
+    fun login(@Body users: User): Call<LoginResponse>
 
     @POST("user/register")
-    fun register(@Body user: User): Call<RegisterResponse>
+    fun register(@Body users: User): Call<RegisterResponse>
 
     @GET("categories")
     fun getCategories(): Call<List<category>>

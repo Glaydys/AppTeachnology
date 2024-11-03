@@ -126,6 +126,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/round"
+                android:padding="8dp"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -195,10 +196,10 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/mua"
+            android:text="MUA NGAY"
             android:textColor="@color/white"
             android:textAllCaps="true"
-            android:backgroundTint="#FA4F4F"
+            android:backgroundTint="#3CB371"
             android:layout_marginBottom="8dp" />
 
         <!-- Exclusive Section -->
@@ -305,7 +306,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:textSize="18dp" />
+                android:textSize="18sp"
+                android:letterSpacing="0.05"
+                android:lineSpacingExtra="2dp"
+                android:fontFamily="sans-serif" />
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

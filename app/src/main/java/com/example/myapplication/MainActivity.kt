@@ -31,11 +31,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.trangchu)
 
         categoryRecyclerView = findViewById(R.id.categoryRecyclerView)
-        categoryRecyclerView.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        categoryRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        // Gán adapter rỗng ban đầu cho categoryRecyclerView
+        categoryRecyclerView.adapter = CategoryAdapter(emptyList())
 
         productRecyclerViews = listOf(
-            findViewById(R.id.productRecyclerView),
+            findViewById(R.id.productRecyclerView1),
             findViewById(R.id.productRecyclerView2),
             findViewById(R.id.productRecyclerView3),
             findViewById(R.id.productRecyclerView4),
@@ -45,24 +47,22 @@ class MainActivity : AppCompatActivity() {
         )
 
         productRecyclerViews.forEach { recyclerView ->
-            recyclerView.layoutManager =
-                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            // Gán adapter rỗng ban đầu cho từng RecyclerView
+            recyclerView.adapter = ProductAdapter(emptyList()) { /* click listener */ }
         }
 
-        // chuyen sang searchactivity
+        // Chuyển sang SearchActivity khi nhấn vào TextView tìm kiếm
         val tv_search: TextView = findViewById(R.id.tv_search)
-        tv_search.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(p0: View?) {
-                var intent = Intent(this@MainActivity, SearchActivity::class.java)
-                startActivity(intent)
-            }
-        })
+        tv_search.setOnClickListener {
+            val intent = Intent(this@MainActivity, SearchActivity::class.java)
+            startActivity(intent)
+        }
 
         fetchCategories()
 
-        // User image
+        // Thiết lập sự kiện click cho ảnh đại diện người dùng
         val userImg: ImageView = findViewById(R.id.user)
-
         userImg.setOnClickListener {
             val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
             val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
@@ -83,11 +83,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
-        if (isLoggedIn) {
-            userImg.setImageResource(R.drawable.user2)
-        } else {
-            userImg.setImageResource(R.drawable.user)
-        }
+        userImg.setImageResource(if (isLoggedIn) R.drawable.user2 else R.drawable.user)
     }
 
     private fun fetchCategories() {
@@ -99,22 +95,18 @@ class MainActivity : AppCompatActivity() {
         val api = retrofit.create(ApiService::class.java)
 
         api.getCategories().enqueue(object : Callback<List<category>> {
-            override fun onResponse(
-                call: Call<List<category>>,
-                response: Response<List<category>>
-            ) {
+            override fun onResponse(call: Call<List<category>>, response: Response<List<category>>) {
                 if (response.isSuccessful) {
                     val categories = response.body() ?: emptyList()
                     categoryRecyclerView.adapter = CategoryAdapter(categories).apply {
                         onCategoryClick = { selectedCategory ->
-                            // When user clicks on category, go to ProductDisplayActivity
                             val intent = Intent(this@MainActivity, ProductDisplayActivity::class.java)
                             intent.putExtra("category_id", selectedCategory.category_id)
                             intent.putExtra("category_name", selectedCategory.name_category)
                             startActivity(intent)
                         }
                     }
-                    // Fetch products for each category
+                    // Gọi hàm lấy sản phẩm cho từng danh mục
                     categories.forEachIndexed { index, category ->
                         fetchProductsByCategory(category.category_id, index)
                     }
@@ -141,7 +133,6 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<List<products>>, response: Response<List<products>>) {
                 if (response.isSuccessful) {
                     response.body()?.let { allProducts ->
-                        Log.d(TAG, "Fetched products: $allProducts")
                         val filteredProducts = allProducts.filter { it.category_id == categoryId }
                         showProducts(filteredProducts, recyclerViewIndex)
                     } ?: Log.e(TAG, "No products found")
@@ -157,10 +148,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showProducts(products: List<products>, recyclerViewIndex: Int) {
-        if (recyclerViewIndex >= 0 && recyclerViewIndex < productRecyclerViews.size) {
+        if (recyclerViewIndex in productRecyclerViews.indices) {
             val productAdapter = ProductAdapter(products) { product ->
-                Log.d(TAG, "Selected Product: $product")
-
                 val intent = Intent(this, ProductDetails::class.java)
                 intent.putExtra("product", product)
                 startActivity(intent)

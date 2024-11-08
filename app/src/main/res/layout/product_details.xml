@@ -194,6 +194,7 @@
 
         <!-- Buy Now Button -->
         <Button
+            android:id="@+id/buynow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="MUA NGAY"

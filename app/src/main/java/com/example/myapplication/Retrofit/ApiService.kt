@@ -19,6 +19,5 @@ interface ApiService {
 
     @GET("products")
     fun getProducts(): Call<List<products>>
-
 }
 

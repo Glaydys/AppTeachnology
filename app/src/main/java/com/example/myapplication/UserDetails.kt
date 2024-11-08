@@ -1,23 +1,13 @@
 package com.example.myapplication
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.Retrofit.ApiService
-import com.example.myapplication.Retrofit.products
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 class UserDetails : AppCompatActivity() {
     private val BASE_URL = "http://$IP_ADDRESS:3003/"

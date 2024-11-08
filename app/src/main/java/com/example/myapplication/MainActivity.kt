@@ -70,8 +70,7 @@ class MainActivity : AppCompatActivity() {
             if (isLoggedIn) {
                 val intent = Intent(this, UserDetails::class.java)
                 startActivity(intent)
-            } else {
-                val intent = Intent(this, LoginActivity::class.java)
+            } else { val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -137,8 +136,7 @@ class MainActivity : AppCompatActivity() {
                         showProducts(filteredProducts, recyclerViewIndex)
                     } ?: Log.e(TAG, "No products found")
                 } else {
-                    Log.e(TAG, "Error fetching products: ${response.code()}")
-                }
+                    Log.e(TAG, "Error fetching products: ${response.code()}") }
             }
 
             override fun onFailure(call: Call<List<products>>, t: Throwable) {

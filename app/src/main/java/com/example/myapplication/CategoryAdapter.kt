@@ -35,7 +35,8 @@ class CategoryAdapter(private val categories: List<category>) : RecyclerView.Ada
         Glide.with(holder.itemView.context)
             .load("http://$IP_ADDRESS:3000/${category.image_category}")
             .into(holder.imgDanhmuc)
-        holder.itemView.setOnClickListener {
+
+        holder.imgDanhmuc.setOnClickListener {
             onCategoryClick(category)
         }
     }

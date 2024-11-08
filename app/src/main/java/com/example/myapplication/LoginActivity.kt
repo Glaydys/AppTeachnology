@@ -63,9 +63,7 @@ class LoginActivity : AppCompatActivity(){
             })
 
         }
-    }
-
-    fun onRegisterClick(view: View) {
+    } fun onRegisterClick(view: View) {
         try {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)

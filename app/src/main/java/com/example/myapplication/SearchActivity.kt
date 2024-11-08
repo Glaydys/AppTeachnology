@@ -73,13 +73,11 @@ class SearchActivity : AppCompatActivity() {
             .build()
             .create(ApiService::class.java)
 
-        Log.i(TAG, "Gọi API bắt đầu")
         api.getProducts().enqueue(object : Callback<List<products>>{ // ENQUEUE THUC HIEN GOI API BAT DONG BO
             override fun onResponse(
                 call: Call<List<products>>,
                 response: Response<List<products>>
             ) {
-                Log.i(TAG, "Nhận được phản hồi từ API")
                 if (response.isSuccessful){
                     response.body()?.let {
                         for (products in it){

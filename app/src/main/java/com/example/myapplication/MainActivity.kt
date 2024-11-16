@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -59,6 +60,21 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+        //cart
+        val cart: ImageView = findViewById(R.id.cart)
+        cart.setOnClickListener {
+            val SharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+            val userId = SharedPreferences.getString("_id", null)
+            if(userId == null) {
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }else{
+                val intent = Intent(this@MainActivity, CartActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
         fetchCategories()
 
         // Thiết lập sự kiện click cho ảnh đại diện người dùng
@@ -77,6 +93,7 @@ class MainActivity : AppCompatActivity() {
 
         updateUserImage(userImg)
     }
+
 
     private fun updateUserImage(userImg: ImageView) {
         val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -119,6 +136,8 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+
+
 
     private fun fetchProductsByCategory(categoryId: Int, recyclerViewIndex: Int) {
         val retrofit = Retrofit.Builder()

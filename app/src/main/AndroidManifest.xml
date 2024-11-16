@@ -49,6 +49,9 @@
         <activity
             android:name=".SearchActivity"
             android:exported="true" />
+        <activity
+            android:name=".CartActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

@@ -15,14 +15,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity(){
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        var buttonLogin: Button = findViewById(R.id.buttonLogin)
-        var editTextUsername: EditText = findViewById(R.id.editTextUsername)
-        var editTextPassword: EditText = findViewById(R.id.editTextPassword)
+        val buttonLogin: Button = findViewById(R.id.buttonLogin)
+        val editTextUsername: EditText = findViewById(R.id.editTextUsername)
+        val editTextPassword: EditText = findViewById(R.id.editTextPassword)
 
         buttonLogin.setOnClickListener {
             // Xử lý đăng nhập
@@ -41,8 +41,8 @@ class LoginActivity : AppCompatActivity(){
                         val _id = loginResponse?._id
 
                         Toast.makeText(this@LoginActivity, "Chào mừng $username!", Toast.LENGTH_LONG).show()
-                        // Chuyển đến trang chủ hoặc trang khác
 
+                        // Lưu thông tin đăng nhập vào SharedPreferences
                         val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
                         val editor = sharedPreferences.edit()
                         editor.putBoolean("isLoggedIn", true)

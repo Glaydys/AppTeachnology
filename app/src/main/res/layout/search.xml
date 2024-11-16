@@ -20,7 +20,6 @@
             android:background="@drawable/rounded"
             android:scaleType="fitXY"/>
 
-
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_weight="1"

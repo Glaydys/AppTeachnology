@@ -15,42 +15,43 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity(){
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        var buttonLogin: Button = findViewById(R.id.buttonLogin)
-        var editTextUsername: EditText = findViewById(R.id.editTextUsername)
-        var editTextPassword: EditText = findViewById(R.id.editTextPassword)
+        val buttonLogin: Button = findViewById(R.id.buttonLogin)
+        val editTextUsername: EditText = findViewById(R.id.editTextUsername)
+        val editTextPassword: EditText = findViewById(R.id.editTextPassword)
 
         buttonLogin.setOnClickListener {
             // Xử lý đăng nhập
             val username = editTextUsername.text.toString()
             val password = editTextPassword.text.toString()
-            val email = "".toString()
-            val user = User(username, email, password)
+            val user = User(username, "", password)
 
             RetrofitClient.apiService.login(user).enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful) {
-
                         val loginResponse = response.body()
-                        val username = loginResponse?.username // Giả sử bạn có trường username trong LoginResponse
+                        val userId = loginResponse?._id      // Lấy userId từ phản hồi
+                        val username = loginResponse?.username
                         val email = loginResponse?.email
 
                         Toast.makeText(this@LoginActivity, "Chào mừng $username!", Toast.LENGTH_LONG).show()
-                        // Chuyển đến trang chủ hoặc trang khác
 
+                        // Lưu thông tin đăng nhập vào SharedPreferences
                         val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
-                        val editor = sharedPreferences.edit()
-                        editor.putBoolean("isLoggedIn", true)
-                        editor.putString("username", username) // thay thế bằng username thực tế
-                        editor.putString("email", email) // thay thế bằng email thực tế
-                        editor.apply()
+                        with (sharedPreferences.edit()) {
+                            putBoolean("isLoggedIn", true)
+                            putString("userId", userId)       // Lưu userId vào SharedPreferences
+                            putString("username", username)
+                            putString("email", email)
+                            apply()
+                        }
 
-                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                        startActivity(intent)
+                        // Chuyển sang MainActivity
+                        startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                         finish()
                     } else {
                         Toast.makeText(this@LoginActivity, "Lỗi: ${response.message()}", Toast.LENGTH_SHORT).show()
@@ -61,14 +62,14 @@ class LoginActivity : AppCompatActivity(){
                     Toast.makeText(this@LoginActivity, "Lỗi mạng: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
-
         }
-    } fun onRegisterClick(view: View) {
+    }
+
+    fun onRegisterClick(view: View) {
         try {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        } catch (view: Exception) {
-            view.printStackTrace()
+            startActivity(Intent(this, RegisterActivity::class.java))
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }

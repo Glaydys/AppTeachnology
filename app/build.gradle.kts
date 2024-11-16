@@ -50,4 +50,6 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
+    implementation ("com.nex3z:notification-badge:1.0.4")
+
 }

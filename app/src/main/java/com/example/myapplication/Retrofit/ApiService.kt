@@ -19,5 +19,8 @@ interface ApiService {
 
     @GET("products")
     fun getProducts(): Call<List<products>>
+
+    @POST("rate/add")
+    fun addRate(@Body rate: Rate): Call<Rate>
 }
 

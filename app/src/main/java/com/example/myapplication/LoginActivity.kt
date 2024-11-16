@@ -3,7 +3,7 @@ package com.example.myapplication
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -38,6 +38,7 @@ class LoginActivity : AppCompatActivity(){
                         val loginResponse = response.body()
                         val username = loginResponse?.username // Giả sử bạn có trường username trong LoginResponse
                         val email = loginResponse?.email
+                        val _id = loginResponse?._id
 
                         Toast.makeText(this@LoginActivity, "Chào mừng $username!", Toast.LENGTH_LONG).show()
                         // Chuyển đến trang chủ hoặc trang khác
@@ -47,6 +48,7 @@ class LoginActivity : AppCompatActivity(){
                         editor.putBoolean("isLoggedIn", true)
                         editor.putString("username", username) // thay thế bằng username thực tế
                         editor.putString("email", email) // thay thế bằng email thực tế
+                        editor.putString("_id", _id) // thay thế bằng _id thực tế
                         editor.apply()
 
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -63,7 +65,7 @@ class LoginActivity : AppCompatActivity(){
             })
 
         }
-    } fun onRegisterClick(view: View) {
+    } fun onRegisterClick() {
         try {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)

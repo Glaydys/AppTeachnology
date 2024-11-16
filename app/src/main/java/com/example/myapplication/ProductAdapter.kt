@@ -19,6 +19,8 @@ class ProductAdapter(
         val productImage: ImageView = view.findViewById(R.id.productImage)  // ImageView để hiển thị ảnh
         val productName: TextView = view.findViewById(R.id.productName)
         val productPrice: TextView = view.findViewById(R.id.productPrice)
+        val productRating: TextView = view.findViewById(R.id.productRating)
+        val totaluser: TextView = view.findViewById(R.id.totaluser)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -42,6 +44,13 @@ class ProductAdapter(
         Glide.with(holder.productImage.context)
             .load("http://$IP_ADDRESS:3000/${product.image_product}") // Ghép URL server và đường dẫn hình ảnh
             .into(holder.productImage)
+
+        holder.productRating.text = product.rate
+        if (product.totalUserRate !== 0) {
+            holder.totaluser.text = "(${product.totalUserRate})"
+        } else {
+            holder.totaluser.text = ""; // Hoặc giá trị mặc định như "Không có đánh giá"
+        }
 
         holder.itemView.setOnClickListener {
             onProductClick(product)

@@ -71,14 +71,14 @@
                 android:background="@drawable/rounded_button"/>
 
             <TextView
+                android:id="@+id/buttonRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
                 android:text="Chưa có tài khoản? Đăng ký"
                 android:textColor="@android:color/holo_blue_dark"
-                android:clickable="true"
-                android:onClick="onRegisterClick"/>
+                android:clickable="true" />
 
         </LinearLayout>
 

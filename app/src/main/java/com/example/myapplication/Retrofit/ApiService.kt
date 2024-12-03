@@ -3,7 +3,6 @@ package com.example.myapplication.Retrofit
 
 import retrofit2.Call
 import retrofit2.http.Body
-import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -25,20 +24,19 @@ interface ApiService {
     @POST("rate/add")
     fun addRate(@Body rate: Rate): Call<Rate>
 
-    @POST("carts/add")
+    @POST("cart/addproduct_cart")
     fun addtoCart(@Body cart: Cart): Call<Cart>
 
-    @GET("carts/{userId}")
+    @GET("cart/{userId}")
     fun getCart(@Path("userId") userId: String): Call<CartResponse>
 
-    @POST("carts/update")
+    @POST("cart/update")
     fun updateCart(@Body cartUpdateRequest: CartUpdateRequest): Call<CartResponse>
 
-    @DELETE("carts/{productId}/{userId}")
-    fun deleteProductFromCart(
-        @Path("productId") productId: String,
-        @Path("userId") userId: String
-    ): Call<CartResponse>
+    @POST("cart/delete_product_cart")
+    fun deleteProductFromCart(@Body cartDelete: CartDelete): Call<CartResponse>
 
+    @POST("vnpay/create_payment_url")
+    fun createPaymentUrl(@Body request: PaymentRequest): Call<PaymentResponse>
 }
 

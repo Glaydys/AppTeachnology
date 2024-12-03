@@ -14,7 +14,6 @@ data class ProductInCart(
 
 data class Product(
     val _id: String,
-    val product_id: String,
     val category_id: Int,
     val name_product: String,
     val description: String,
@@ -35,5 +34,10 @@ data class Cart(
 data class CartUpdateRequest(
     val userId: String,
     val products: List<Cart>
+)
+
+data class CartDelete(
+    val userId: String,
+    val productId: String
 )
 

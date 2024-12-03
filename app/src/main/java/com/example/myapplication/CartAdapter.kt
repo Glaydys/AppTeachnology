@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.Retrofit.ApiService
 import com.example.myapplication.Retrofit.Cart
+import com.example.myapplication.Retrofit.CartDelete
 import com.example.myapplication.Retrofit.CartResponse
 import com.example.myapplication.Retrofit.CartUpdateRequest
 import com.example.myapplication.Retrofit.ProductInCart
@@ -22,7 +23,7 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class CartAdapter(
-    private val cartItems: MutableList<ProductInCart>,
+    val cartItems: MutableList<ProductInCart>,
     private val userId: String,
     private var isSelectAll: Boolean,
     private val onItemChecked: (Double) -> Unit
@@ -60,6 +61,7 @@ class CartAdapter(
         // Handle checkbox selection
         holder.selectCheckBox.setOnCheckedChangeListener { _, isChecked ->
             cartItem.isChecked = isChecked
+            cartItem.productId
             updateTotalAmount()
         }
 
@@ -97,11 +99,17 @@ class CartAdapter(
 
         val api = retrofit.create(ApiService::class.java)
 
-        val call = api.deleteProductFromCart(cartItem.productId._id, userId)
+
+        val userId = userId
+        val productId = cartItem.productId._id
+        val cartDelete = CartDelete(userId,productId)
+        val call = api.deleteProductFromCart(cartDelete)
         call.enqueue(object : Callback<CartResponse> {
             override fun onResponse(call: Call<CartResponse>, response: Response<CartResponse>) {
                 if (response.isSuccessful) {
+                    Log.d("CartAdapter", "Before removal: position=$position, cartItems=${cartItems.size}")
                     cartItems.removeAt(position)
+                    Log.d("CartAdapter", "After removal: cartItems=${cartItems.size}")
                     notifyItemRemoved(position)
                     notifyItemRangeChanged(position,cartItems.size)
                     Log.d("CartAdapter", "Product removed successfully: ${response.body()}")

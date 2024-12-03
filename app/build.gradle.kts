@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 }
 
+
 android {
     namespace = "com.example.myapplication"
     compileSdk = 34
@@ -50,6 +51,9 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.3.0")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")
-    implementation ("com.nex3z:notification-badge:1.0.4")
+    implementation("com.nex3z:notification-badge:1.0.4")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("com.google.code.gson:gson:2.8.5")
+
 
 }

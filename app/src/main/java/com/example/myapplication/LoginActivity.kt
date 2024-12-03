@@ -3,9 +3,9 @@ package com.example.myapplication
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.Retrofit.LoginResponse
@@ -23,6 +23,13 @@ class LoginActivity : AppCompatActivity() {
         val buttonLogin: Button = findViewById(R.id.buttonLogin)
         val editTextUsername: EditText = findViewById(R.id.editTextUsername)
         val editTextPassword: EditText = findViewById(R.id.editTextPassword)
+        val buttonRegister: TextView = findViewById(R.id.buttonRegister)
+
+        buttonRegister.setOnClickListener {
+//            Toast.makeText(this@LoginActivity,"register", Toast.LENGTH_LONG).show()
+            val intent = Intent(this@LoginActivity, RegisterActivity::class.java)
+            startActivity(intent)
+        }
 
         buttonLogin.setOnClickListener {
             // Xử lý đăng nhập
@@ -35,10 +42,11 @@ class LoginActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful) {
 
-                        val loginResponse = response.body()
-                        val username = loginResponse?.username // Giả sử bạn có trường username trong LoginResponse
-                        val email = loginResponse?.email
-                        val _id = loginResponse?._id
+                        val loginResponse = response.body()!!
+                        val user = loginResponse.user
+                        val username = user?.username // Giả sử bạn có trường username trong LoginResponse
+                        val email = user?.email
+                        val _id = user?._id
 
                         Toast.makeText(this@LoginActivity, "Chào mừng $username!", Toast.LENGTH_LONG).show()
 
@@ -65,12 +73,13 @@ class LoginActivity : AppCompatActivity() {
             })
 
         }
-    } fun onRegisterClick() {
-        try {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        } catch (view: Exception) {
-            view.printStackTrace()
-        }
     }
+//    fun onRegisterClick() {
+//        try {
+//            val intent = Intent(this, RegisterActivity::class.java)
+//            startActivity(intent)
+//        } catch (view: Exception) {
+//            view.printStackTrace()
+//        }
+//    }
 }

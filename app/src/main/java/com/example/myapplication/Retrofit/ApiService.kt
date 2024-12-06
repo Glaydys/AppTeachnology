@@ -6,6 +6,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface ApiService {
@@ -38,5 +39,13 @@ interface ApiService {
 
     @POST("vnpay/create_payment_url")
     fun createPaymentUrl(@Body request: PaymentRequest): Call<PaymentResponse>
+
+    @GET("orders/getorder")
+    fun getOrders(
+        @Query("userId") userId: String,
+        @Query("status") status: String?
+    ): Call<List<Order>>
+    @GET("/orders/{orderId}/details")
+    fun getOrderDetails(@Path("orderId") orderId: String): Call<List<OrderDetail>>
 }
 

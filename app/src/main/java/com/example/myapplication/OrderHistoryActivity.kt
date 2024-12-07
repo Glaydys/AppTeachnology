@@ -13,6 +13,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+import android.widget.ImageButton
+
 class OrderHistoryActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
@@ -29,6 +31,12 @@ class OrderHistoryActivity : AppCompatActivity() {
         orderAdapter = OrderAdapter(emptyList()) { order ->
         }
         recyclerView.adapter = orderAdapter
+
+        // Xử lý nút quay lại
+        val backButton: ImageButton = findViewById(R.id.backButton)
+        backButton.setOnClickListener {
+            finish() // Kết thúc Activity hiện tại và quay lại Activity trước
+        }
 
         val orderStatus = intent.getStringExtra("orderStatus")
         val userId = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE).getString("_id", null)

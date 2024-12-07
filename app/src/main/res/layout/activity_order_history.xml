@@ -1,6 +1,40 @@
-<androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerViewOrderHistory"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    layout_height=""
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:orientation="vertical">
+
+    <!-- Thanh Profile -->
+    <RelativeLayout
+        android:id="@+id/profileLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B6E8A6"
+        android:padding="16dp">
+
+        <!-- Nút quay lại -->
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@null"
+            android:src="@drawable/back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/backButton"
+            android:layout_marginStart="8dp">
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!-- Phần hiển thị lịch sử đơn hàng -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOrderHistory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="16dp" />
+</LinearLayout> 

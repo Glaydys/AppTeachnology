@@ -78,7 +78,7 @@ class CartAdapter(
         holder.increaseButton.setOnClickListener {
             if (!isUpdating) {
                 isUpdating = false
-                val limit = cartItem.productId.quantity // Assuming stock field exists
+                val limit = cartItem.productId.quantity 
                 if (cartItem.quantity < limit) {
                     cartItem.quantity += 1
                     holder.productQuantity.text = cartItem.quantity.toString()

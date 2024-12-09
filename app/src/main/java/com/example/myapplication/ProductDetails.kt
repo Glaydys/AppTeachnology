@@ -217,7 +217,6 @@ class ProductDetails : AppCompatActivity() {
                     Toast.makeText(this, "Product ID không hợp lệ", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-
                 // Kiểm tra số lượng trong kho
                 val stockQuantity = product.quantity
 

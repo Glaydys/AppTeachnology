@@ -136,8 +136,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-
-
     private fun fetchProductsByCategory(categoryId: Int, recyclerViewIndex: Int) {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)

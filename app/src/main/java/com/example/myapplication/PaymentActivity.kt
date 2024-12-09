@@ -19,7 +19,6 @@ class PaymentActivity : AppCompatActivity() {
         paymentWebView.settings.javaScriptEnabled = true
         paymentWebView.webViewClient = WebViewClient()
 
-        paymentWebView.webViewClient = WebViewClient()
         paymentWebView.addJavascriptInterface(object {
             @JavascriptInterface
             fun paymentSuccess() {

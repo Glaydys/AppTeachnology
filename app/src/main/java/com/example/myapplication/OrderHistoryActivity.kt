@@ -14,6 +14,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 import android.widget.ImageButton
+import android.widget.TextView
 
 class OrderHistoryActivity : AppCompatActivity() {
 
@@ -32,6 +33,8 @@ class OrderHistoryActivity : AppCompatActivity() {
         }
         recyclerView.adapter = orderAdapter
 
+        val titleText: TextView = findViewById(R.id.titleText)
+
         // Xử lý nút quay lại
         val backButton: ImageButton = findViewById(R.id.backButton)
         backButton.setOnClickListener {
@@ -41,6 +44,13 @@ class OrderHistoryActivity : AppCompatActivity() {
         val orderStatus = intent.getStringExtra("orderStatus")
         val userId = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE).getString("_id", null)
 
+        titleText.text = when (orderStatus) {
+            "Đang chờ xác nhận" -> "Đơn hàng chờ xác nhận"
+            "Đang giao" -> "Đơn hàng đang giao"
+            "Đã giao" -> "Đơn hàng đã giao"
+            null -> "Tất cả đơn hàng"
+            else -> "Trạng thái không xác định"
+        }
         if (userId.isNullOrEmpty()) {
             Toast.makeText(
                 this,

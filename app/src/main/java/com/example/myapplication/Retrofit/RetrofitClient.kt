@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "http://"+ IP_ADDRESS +":3003/"  // Địa chỉ API của bạn
+    private const val BASE_URL = "http://$IP_ADDRESS:3003/"
 
     private val retrofit: Retrofit by lazy {
         val gson = GsonBuilder().setLenient().create()

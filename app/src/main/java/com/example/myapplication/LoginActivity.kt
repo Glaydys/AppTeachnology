@@ -36,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
             val username = editTextUsername.text.toString()
             val password = editTextPassword.text.toString()
             val email = "".toString()
-            val user = User(username, email, password)
+            val address = "".toString()
+            val user = User(username, email, password, address)
 
             RetrofitClient.apiService.login(user).enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
@@ -46,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
                         val user = loginResponse.user
                         val username = user?.username // Giả sử bạn có trường username trong LoginResponse
                         val email = user?.email
+                        val address = user?.address
                         val _id = user?._id
 
                         Toast.makeText(this@LoginActivity, "Chào mừng $username!", Toast.LENGTH_LONG).show()
@@ -56,6 +58,7 @@ class LoginActivity : AppCompatActivity() {
                         editor.putBoolean("isLoggedIn", true)
                         editor.putString("username", username) // thay thế bằng username thực tế
                         editor.putString("email", email) // thay thế bằng email thực tế
+                        editor.putString("address",address)
                         editor.putString("_id", _id) // thay thế bằng _id thực tế
                         editor.apply()
 
@@ -74,12 +77,5 @@ class LoginActivity : AppCompatActivity() {
 
         }
     }
-//    fun onRegisterClick() {
-//        try {
-//            val intent = Intent(this, RegisterActivity::class.java)
-//            startActivity(intent)
-//        } catch (view: Exception) {
-//            view.printStackTrace()
-//        }
-//    }
+
 }

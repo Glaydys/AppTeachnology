@@ -4,7 +4,9 @@ package com.example.myapplication.Retrofit
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -48,7 +50,9 @@ interface ApiService {
         @Query("userId") userId: String,
         @Query("status") status: String?
     ): Call<List<Order>>
+
     @GET("/orders/{orderId}/details")
     fun getOrderDetails(@Path("orderId") orderId: String): Call<List<OrderDetail>>
+
 }
 

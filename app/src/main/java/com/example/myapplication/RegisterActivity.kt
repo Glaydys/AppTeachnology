@@ -23,14 +23,16 @@ class RegisterActivity : AppCompatActivity() {
         val editTextUsername: EditText = findViewById(R.id.editTextUsername)
         val editTextPassword: EditText = findViewById(R.id.editTextPassword)
         val editTextEmail: EditText = findViewById(R.id.editTextEmail)
+        val editTextAddress: EditText = findViewById(R.id.editTextAddress)
 
         buttonRegister.setOnClickListener {
             // Xử lý đăng ký
             val username = editTextUsername.text.toString()
             val email = editTextEmail.text.toString()
             val password = editTextPassword.text.toString()
+            val address = editTextAddress.text.toString()
 
-            val user = User(username, email, password)
+            val user = User(username, email, password,address)
 
             RetrofitClient.apiService.register(user).enqueue(object : Callback<RegisterResponse> {
                 override fun onResponse(call: Call<RegisterResponse>, response: Response<RegisterResponse>) {

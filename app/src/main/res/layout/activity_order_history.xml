@@ -17,15 +17,25 @@
             android:id="@+id/backButton"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
+            android:layout_alignParentStart="true"
             android:background="@null"
             android:src="@drawable/back" />
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/backButton"
+            android:layout_marginStart="8dp"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:gravity="center_vertical" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_toEndOf="@id/backButton"
+            android:layout_toEndOf="@id/titleText"
             android:layout_marginStart="8dp">
         </LinearLayout>
     </RelativeLayout>
@@ -37,4 +47,4 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:padding="16dp" />
-</LinearLayout> 
+</LinearLayout>

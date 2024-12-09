@@ -62,16 +62,13 @@ class CartActivity : AppCompatActivity() {
 
             if (selectedProducts.isNotEmpty()) {
 
-                // Retrieve userId from SharedPreferences
                 val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
                 val userId = sharedPreferences.getString("_id", null)
 
                 if (userId != null) {
-                    // Retrieve amount from SharedPreferences
                     val share = getSharedPreferences("Cart", Context.MODE_PRIVATE)
                     val amount = share.getInt("amount", 0)
 
-                    // Create the PaymentRequest with userId
                     val request = PaymentRequest(
                         userId = userId,  // Pass userId here
                         products = selectedProducts,
@@ -177,6 +174,7 @@ class CartActivity : AppCompatActivity() {
         val amount = formattedPrice.replace(",", "").toDouble().toInt()
         val sharedPreferences = getSharedPreferences("Cart", Context.MODE_PRIVATE)
         sharedPreferences.edit().putInt("amount",amount).apply()
+
 
     }
 }

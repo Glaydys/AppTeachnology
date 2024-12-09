@@ -4,8 +4,8 @@ data class PaymentRequest(
     val userId: String,
     val products: List<ProductInCart>,
     val amount: Int,
-    val bankCode: String = "",  // Default value is an empty string
-    val language: String = "vn"  // Default value is "vn"
+    val bankCode: String = "",
+    val language: String = "vn"
 )
 
 data class PaymentResponse(

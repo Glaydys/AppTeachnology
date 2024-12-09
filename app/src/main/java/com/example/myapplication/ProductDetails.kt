@@ -84,9 +84,15 @@ class ProductDetails : AppCompatActivity() {
             } else {
                 product.price
             }
-            productRating.text = product.rate + "/5"
-            if (product.totalUserRate !== 0) {
-                totaluser.text = "(${product.totalUserRate})"
+
+            if(product.rate === null){
+                productRating.text = "0".toString()
+            }else{
+                productRating.text = "${product.rate}/5"
+            }
+
+            if (product.totalComments !== 0) {
+                totaluser.text = "(${product.totalComments})"
             } else {
                 totaluser.text = ""; // Hoặc giá trị mặc định như "Không có đánh giá"
             }

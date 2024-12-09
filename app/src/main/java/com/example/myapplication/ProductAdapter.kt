@@ -45,9 +45,9 @@ class ProductAdapter(
             .load("http://$IP_ADDRESS:3000/${product.image_product}") // Ghép URL server và đường dẫn hình ảnh
             .into(holder.productImage)
 
-        holder.productRating.text = product.rate
-        if (product.totalUserRate !== 0) {
-            holder.totaluser.text = "(${product.totalUserRate})"
+        holder.productRating.text = "${ product.rate }"
+        if (product.totalComments !== 0) {
+            holder.totaluser.text = "(${product.totalComments})"
         } else {
             holder.totaluser.text = ""; // Hoặc giá trị mặc định như "Không có đánh giá"
         }

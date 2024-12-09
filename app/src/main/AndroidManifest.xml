@@ -58,6 +58,10 @@
             android:exported="true" />
         <activity android:name=".OrderHistoryActivity"/>
 
+        <activity android:name=".VerifyActivity"
+            android:exported="true" />
+        <activity android:name=".LoginOtpActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

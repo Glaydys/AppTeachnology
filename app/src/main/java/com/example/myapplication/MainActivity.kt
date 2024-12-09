@@ -2,10 +2,8 @@ package com.example.myapplication
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -86,7 +84,8 @@ class MainActivity : AppCompatActivity() {
             if (isLoggedIn) {
                 val intent = Intent(this, UserDetails::class.java)
                 startActivity(intent)
-            } else { val intent = Intent(this, LoginActivity::class.java)
+            } else {
+                val intent = Intent(this@MainActivity, LoginOtpActivity::class.java)
                 startActivity(intent)
             }
         }

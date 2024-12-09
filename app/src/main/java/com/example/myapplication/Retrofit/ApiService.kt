@@ -50,5 +50,8 @@ interface ApiService {
     ): Call<List<Order>>
     @GET("/orders/{orderId}/details")
     fun getOrderDetails(@Path("orderId") orderId: String): Call<List<OrderDetail>>
+    
+    @POST("user/login_with_otp/{username}")
+    fun loginWithOTP(@Path("username") username: String): Call<UserResponse>
 }
 

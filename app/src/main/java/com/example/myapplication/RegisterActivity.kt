@@ -43,7 +43,7 @@ class RegisterActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish() // Kết thúc hoạt động này để không quay lại được
                     } else {
-                        Toast.makeText(this@RegisterActivity, "Lỗi: ${response.message()}", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@RegisterActivity, "User đã tồn tại", Toast.LENGTH_LONG).show()
                     }
                 }
 

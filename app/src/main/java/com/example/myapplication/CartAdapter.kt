@@ -78,12 +78,18 @@ class CartAdapter(
         holder.increaseButton.setOnClickListener {
             if (!isUpdating) {
                 isUpdating = false
-                cartItem.quantity += 1
-                holder.productQuantity.text = cartItem.quantity.toString()
-                updateTotalAmount()
-                updateCartInDatabase(cartItem)
+                val limit = cartItem.productId.quantity 
+                if (cartItem.quantity < limit) {
+                    cartItem.quantity += 1
+                    holder.productQuantity.text = cartItem.quantity.toString()
+                    updateTotalAmount()
+                    updateCartInDatabase(cartItem)
+                } else {
+                    Log.d("CartAdapter", "Sản phẩm đã hết hàng${cartItem.productId.name_product}")
+                }
             }
-        }
+
+    }
 
         //delete
         holder.removeProduct.setOnClickListener {

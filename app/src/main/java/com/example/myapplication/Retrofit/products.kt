@@ -9,6 +9,7 @@ data class products(
     val description : String,
     val image_product: String,
     val category_id: Int,
+    val quantity : Int,
     val rate: String,
     val totalUserRate: Int
 ) : Parcelable {
@@ -19,6 +20,7 @@ data class products(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
+        parcel.readInt() ,
         parcel.readString() ?: "",
         parcel.readInt()
         )
@@ -30,6 +32,7 @@ data class products(
         parcel.writeString(description)
         parcel.writeString(image_product)
         parcel.writeInt(category_id)
+        parcel.writeInt(quantity)
         parcel.writeString(rate)
         parcel.writeInt(totalUserRate)
     }

@@ -55,7 +55,7 @@ class ProductDetails : AppCompatActivity() {
         productPrice = findViewById(R.id.productPrice)
         imgProductImage = findViewById(R.id.imgProductImage)
         txtProductDescription = findViewById(R.id.txtProductDescription)
-        txtProductDescription  = findViewById(R.id.txtProductDescription)
+        txtProductDescription = findViewById(R.id.txtProductDescription)
         val productRating: TextView = findViewById(R.id.productRating)
         val totaluser: TextView = findViewById(R.id.totaluser)
         val edt_comment: EditText = findViewById(R.id.edt_comment)
@@ -78,7 +78,8 @@ class ProductDetails : AppCompatActivity() {
 
             val price = product.price.toLongOrNull()
             if (price != null) {
-                val formattedPrice = NumberFormat.getInstance(Locale("vi", "VN")).format(price) + " VNĐ"
+                val formattedPrice =
+                    NumberFormat.getInstance(Locale("vi", "VN")).format(price) + " VNĐ"
                 productPrice.text = formattedPrice
             } else {
                 product.price
@@ -116,11 +117,12 @@ class ProductDetails : AppCompatActivity() {
 //                Toast.makeText(this, "Da login voi id: $uer_id va product id: ${product?._id}", Toast.LENGTH_LONG).show()
                 formLayout.setVisibility(View.VISIBLE)
 
-                ratingBar.onRatingBarChangeListener = RatingBar.OnRatingBarChangeListener { _, rating, _ ->
+                ratingBar.onRatingBarChangeListener =
+                    RatingBar.OnRatingBarChangeListener { _, rating, _ ->
 //                    Toast.makeText(this, "Rating: $rating", Toast.LENGTH_LONG).show()
-                }
+                    }
 
-                btnSubmit.setOnClickListener{
+                btnSubmit.setOnClickListener {
                     val rating = ratingBar.rating
 
                     val productId = product?._id.toString()
@@ -165,7 +167,7 @@ class ProductDetails : AppCompatActivity() {
         ratingBar.backgroundTintList = colorStateList
 
 
-        btnCancel.setOnClickListener{
+        btnCancel.setOnClickListener {
             formLayout.setVisibility(View.GONE)
         }
 
@@ -187,10 +189,10 @@ class ProductDetails : AppCompatActivity() {
         cart.setOnClickListener {
             val SharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
             val userId = SharedPreferences.getString("_id", null)
-            if(userId == null) {
+            if (userId == null) {
                 val intent = Intent(this@ProductDetails, LoginActivity::class.java)
                 startActivity(intent)
-            }else{
+            } else {
                 val intent = Intent(this@ProductDetails, CartActivity::class.java)
                 startActivity(intent)
             }
@@ -209,34 +211,61 @@ class ProductDetails : AppCompatActivity() {
                     Toast.makeText(this, "Product ID không hợp lệ", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
-                val quantity = 1
 
-                Log.d(TAG, "User ID: $userId")
-                Log.d(TAG, "Product ID: $productId")
+                // Kiểm tra số lượng trong kho
+                val stockQuantity = product.quantity
 
-                val cartItem = Cart(userId, productId, quantity)
+                if (stockQuantity > 0) {
+                    val quantity = 1
 
-                // Retrofit API call to add product to the cart
-                RetrofitClient.apiService.addtoCart(cartItem).enqueue(object : Callback<Cart> {
-                    override fun onResponse(call: Call<Cart>, response: Response<Cart>) {
-                        if (response.isSuccessful) {
-                            Log.d(TAG, "Added to cart successfully: ${response.body()}")
-                            Toast.makeText(this@ProductDetails, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "User ID: $userId")
+                    Log.d(TAG, "Product ID: $productId")
 
-                            // After adding to the cart, navigate to CartActivity to show cart items
-                            val intent = Intent(this@ProductDetails, CartActivity::class.java)
-                            startActivity(intent)  // Open CartActivity
-                        } else {
-                            Log.e(TAG, "Failed to add to cart: ${response.code()} ${response.message()}")
-                            Toast.makeText(this@ProductDetails, "Không thể thêm vào giỏ hàng", Toast.LENGTH_SHORT).show()
+                    val cartItem = Cart(userId, productId, quantity)
+
+                    // Retrofit API call to add product to the cart
+                    RetrofitClient.apiService.addtoCart(cartItem).enqueue(object : Callback<Cart> {
+                        override fun onResponse(call: Call<Cart>, response: Response<Cart>) {
+                            if (response.isSuccessful) {
+                                Log.d(TAG, "Added to cart successfully: ${response.body()}")
+                                Toast.makeText(
+                                    this@ProductDetails,
+                                    "Thêm vào giỏ hàng thành công",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+
+                                val intent = Intent(this@ProductDetails, CartActivity::class.java)
+                                startActivity(intent)
+                            } else {
+                                Log.e(
+                                    TAG,
+                                    "Failed to add to cart: ${response.code()} ${response.message()}"
+                                )
+                                Toast.makeText(
+                                    this@ProductDetails,
+                                    "Không thể thêm vào giỏ hàng",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<Cart>, t: Throwable) {
-                        Log.e(TAG, "Error adding to cart: ${t.message}")
-                        Toast.makeText(this@ProductDetails, "Lỗi khi thêm vào giỏ hàng", Toast.LENGTH_SHORT).show()
-                    }
-                })
+                        override fun onFailure(call: Call<Cart>, t: Throwable) {
+                            Log.e(TAG, "Error adding to cart: ${t.message}")
+                            Toast.makeText(
+                                this@ProductDetails,
+                                "Lỗi khi thêm vào giỏ hàng",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    })
+                } else {
+                    // Nếu không còn hàng, thông báo cho người dùng
+                    Toast.makeText(
+                        this@ProductDetails,
+                        "Sản phẩm này đã hết hàng",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         } else {
             Log.e(TAG, "User ID is null; ensure user is logged in")
@@ -275,7 +304,8 @@ class ProductDetails : AppCompatActivity() {
             }
         })
     }
-    private fun updateUserImage(userImg: ImageView) {
+
+        private fun updateUserImage(userImg: ImageView) {
         val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 

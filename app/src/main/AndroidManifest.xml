@@ -56,6 +56,7 @@
         <activity
             android:name=".PaymentActivity"
             android:exported="true" />
+        <activity android:name=".OrderHistoryActivity"/>
 
     </application>
 

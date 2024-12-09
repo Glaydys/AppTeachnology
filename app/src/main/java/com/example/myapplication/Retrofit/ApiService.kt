@@ -21,8 +21,11 @@ interface ApiService {
     @GET("products")
     fun getProducts(): Call<List<products>>
 
-    @POST("rate/add")
+    @POST("rate/rate")
     fun addRate(@Body rate: Rate): Call<Rate>
+
+    @GET("rate/rate/{productId}")
+    fun getComment(@Path("productId") productId: String): Call<RatingResponse>
 
     @POST("cart/addproduct_cart")
     fun addtoCart(@Body cart: Cart): Call<Cart>

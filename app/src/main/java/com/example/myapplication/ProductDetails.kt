@@ -4,10 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.PorterDuff
+import android.graphics.drawable.LayerDrawable
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,6 +20,8 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.myapplication.Retrofit.RetrofitClient
 import com.example.myapplication.Retrofit.Cart
@@ -23,7 +30,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.myapplication.Retrofit.Rate
+import com.example.myapplication.Retrofit.RatingResponse
+import com.example.myapplication.Retrofit.User_comment
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class ProductDetails : AppCompatActivity() {
@@ -47,6 +58,7 @@ class ProductDetails : AppCompatActivity() {
         txtProductDescription  = findViewById(R.id.txtProductDescription)
         val productRating: TextView = findViewById(R.id.productRating)
         val totaluser: TextView = findViewById(R.id.totaluser)
+        val edt_comment: EditText = findViewById(R.id.edt_comment)
 
         // chuyen sang searchactivity
         val tv_search: TextView = findViewById(R.id.search_bar)
@@ -71,7 +83,7 @@ class ProductDetails : AppCompatActivity() {
             } else {
                 product.price
             }
-            productRating.text = product.rate
+            productRating.text = product.rate + "/5"
             if (product.totalUserRate !== 0) {
                 totaluser.text = "(${product.totalUserRate})"
             } else {
@@ -113,9 +125,10 @@ class ProductDetails : AppCompatActivity() {
 
                     val productId = product?._id.toString()
                     val userId = uer_id.toString()
+                    val comment = edt_comment.text.toString()
                     val rateNumber = rating.toFloat()
 
-                    val rate = Rate(productId, userId, rateNumber)
+                    val rate = Rate(userId, productId, comment, rateNumber)
 
                     RetrofitClient.apiService.addRate(rate).enqueue(object : retrofit2.Callback<Rate> {
                         override fun onResponse(call: Call<Rate>, response: Response<Rate>) {
@@ -123,11 +136,14 @@ class ProductDetails : AppCompatActivity() {
                                 Log.e(TAG, "Rating: $rating, id: $uer_id va product id: ${product?._id} ")
                                 Toast.makeText(this@ProductDetails, "Bạn đã đánh giá thành công", Toast.LENGTH_LONG).show()
                                 formLayout.setVisibility(View.GONE)
+                            }else{
+                                Log.e(TAG, "Rating: $rating, id: $uer_id va product id: ${product?._id} ")
+                                Toast.makeText(this@ProductDetails, "Bạn đã đánh giá rồi", Toast.LENGTH_LONG).show()
                             }
                         }
 
                         override fun onFailure(call: Call<Rate>, t: Throwable) {
-                            Toast.makeText(this@ProductDetails, "Lỗi: ${t.message}", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@ProductDetails, "Bạn đã đánh giá rồi", Toast.LENGTH_LONG).show()
                             Log.e("Log", "Error: ", t)
                         }
                     })
@@ -226,11 +242,100 @@ class ProductDetails : AppCompatActivity() {
             Log.e(TAG, "User ID is null; ensure user is logged in")
             Toast.makeText(this, "Vui lòng đăng nhập để mua hàng", Toast.LENGTH_SHORT).show()
         }
+
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewComment)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val productId = product?._id.toString()
+
+        RetrofitClient.apiService.getComment(productId).enqueue(object : Callback<RatingResponse> {
+            override fun onResponse(
+                call: Call<RatingResponse>,
+                response: Response<RatingResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val ratingResponse = response.body()
+                    if (ratingResponse != null) {
+                        val usersList = ratingResponse.users // Lấy danh sách người dùng
+                        val adapter = CommentAdapter(usersList) // Pass danh sách người dùng vào adapter
+                        recyclerView.adapter = adapter
+                    }
+                } else {
+                    Log.e(TAG, "Error: ${response.message()}")
+                    Toast.makeText(this@ProductDetails, "Lỗi response", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(
+                call: Call<RatingResponse>,
+                t: Throwable
+            ) {
+                Log.e(TAG, "Error fetching comment: ${t.message}")
+                Toast.makeText(this@ProductDetails, "Failed to fetch comments", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
     private fun updateUserImage(userImg: ImageView) {
         val sharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
 
         userImg.setImageResource(if (isLoggedIn) R.drawable.user2 else R.drawable.user)
+    }
+}
+
+class CommentAdapter(private val comments: List<User_comment>) :
+    RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
+
+    inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvDate: TextView = itemView.findViewById(R.id.tvDate_comment)
+        val tvUsername: TextView = itemView.findViewById(R.id.tvUsername)
+        val tvComment: TextView = itemView.findViewById(R.id.tvComment)
+        val tvRating: RatingBar = itemView.findViewById(R.id.ratingBarComment)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.info_comment, parent, false)
+        return CommentViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
+        val user = comments[position]
+
+        // Chuyển đổi từ String sang Date
+        val inputDate = user.createdAt.toString()
+        val inputFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+        val outputFormatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        try {
+            val date: Date = inputFormatter.parse(inputDate)!! // Chuyển đổi từ String sang Date
+            val formattedDate: String = outputFormatter.format(date) // Định dạng lại ngày
+            holder.tvDate.text = formattedDate
+        } catch (e: Exception) {
+            e.printStackTrace()
+            holder.tvDate.text = "Invalid date"
+        }
+
+        holder.tvUsername.text = user.userId.username // Lấy tên người dùng
+        holder.tvComment.text = user.comment // Lấy nội dung bình luận
+        holder.tvRating.rating = user.rate.toFloat() // Chuyển đổi từ Int sang Float cho RatingBar
+
+        // Lấy progressDrawable và áp dụng màu vàng
+        val drawable = holder.tvRating.progressDrawable
+        if (drawable is LayerDrawable) {
+            val background = drawable.getDrawable(0) // Lớp nền (sao chưa được chọn)
+            val secondary = drawable.getDrawable(1) // Lớp phần sao được chọn một phần
+            val progress = drawable.getDrawable(2) // Lớp phần sao được chọn đầy đủ
+
+            val yellow = Color.parseColor("#FFEB3B")
+            val gray = Color.parseColor("#CCCCCC")
+
+            background.setColorFilter(gray, PorterDuff.Mode.SRC_ATOP) // Màu xám cho nền
+            secondary.setColorFilter(yellow, PorterDuff.Mode.SRC_ATOP) // Màu vàng nhạt cho phần chọn một phần
+            progress.setColorFilter(yellow, PorterDuff.Mode.SRC_ATOP) // Màu vàng cho phần chọn đầy đủ
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return comments.size
     }
 }

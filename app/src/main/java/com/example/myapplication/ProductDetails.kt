@@ -159,7 +159,7 @@ class ProductDetails : AppCompatActivity() {
 
             } else {
                 Toast.makeText(this, "Chua login", Toast.LENGTH_LONG).show()
-                val intent = Intent(this, LoginActivity::class.java)
+                val intent = Intent(this@ProductDetails, LoginOtpActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -196,7 +196,7 @@ class ProductDetails : AppCompatActivity() {
             val SharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
             val userId = SharedPreferences.getString("_id", null)
             if (userId == null) {
-                val intent = Intent(this@ProductDetails, LoginActivity::class.java)
+                val intent = Intent(this@ProductDetails, LoginOtpActivity::class.java)
                 startActivity(intent)
             } else {
                 val intent = Intent(this@ProductDetails, CartActivity::class.java)

@@ -112,7 +112,7 @@
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:background="@drawable/backgroundbox"
-                    android:backgroundTint="@color/blue"/>
+                    android:backgroundTint="#87D58A"/>
 
                 <ProgressBar
                     android:id="@+id/progressSendOTP"

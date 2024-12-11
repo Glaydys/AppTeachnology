@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
             val SharedPreferences = getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
             val userId = SharedPreferences.getString("_id", null)
             if(userId == null) {
-                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                val intent = Intent(this@MainActivity, LoginOtpActivity::class.java)
                 startActivity(intent)
             }else{
                 val intent = Intent(this@MainActivity, CartActivity::class.java)

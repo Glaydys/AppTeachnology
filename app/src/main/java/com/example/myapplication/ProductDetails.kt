@@ -238,6 +238,7 @@ class ProductDetails : AppCompatActivity() {
                                     "Thêm vào giỏ hàng thành công",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                Log.d("ProductDetails","Thêm vào giỏ hàng thành công")
 
                                 val intent = Intent(this@ProductDetails, CartActivity::class.java)
                                 startActivity(intent)

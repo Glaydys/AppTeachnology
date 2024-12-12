@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.junit.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -59,5 +60,26 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth:23.1.0")
+
+
+    // Espresso core
+    androidTestImplementation ("androidx.test.espresso:espresso-intents:3.5.0")
+    androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.5.0")
+    // Thư viện Hamcrest
+    androidTestImplementation ("org.hamcrest:hamcrest-all:1.3")
+
+
+    // JUnit
+    testImplementation ("junit:junit:4.13.2")
+    androidTestImplementation ("androidx.test.ext:junit:1.1.5")
+
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.0")
+    androidTestImplementation ("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation ("androidx.test:runner:1.5.2")
+    testImplementation ("com.google.truth:truth:1.1")
+    testImplementation ("org.robolectric:robolectric:4.8.2")
+    androidTestImplementation ("org.mockito:mockito-android:4.8.0")
+    androidTestImplementation ("org.mockito:mockito-core:4.8.0")
+
 
 }

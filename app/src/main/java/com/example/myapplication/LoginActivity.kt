@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -66,12 +67,15 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish()
                     } else {
-                        Toast.makeText(this@LoginActivity, "Lỗi: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        Thread.sleep(500)
+                        Toast.makeText(this@LoginActivity, "Lỗi: Wrong password", Toast.LENGTH_SHORT).show()
+                        Log.d("Login","Lỗi: Wrong password")
+
                     }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    Toast.makeText(this@LoginActivity, "Lỗi mạng: ${t.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@LoginActivity, "Lỗi: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             })
 

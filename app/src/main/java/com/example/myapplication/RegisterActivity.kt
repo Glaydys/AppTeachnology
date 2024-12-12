@@ -13,6 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 import android.content.Intent // Nhớ thêm import cho Intent
+import android.util.Log
 
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,11 +40,11 @@ class RegisterActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val username = user.username
                         Toast.makeText(this@RegisterActivity, "Đăng ký thành công $username!", Toast.LENGTH_LONG).show()
+                        Log.d("RegisterActivity", "Đăng ký thành công $username!")
 
-                        // Chuyển đến trang đăng nhập sau khi đăng ký thành công
-                        val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+                        val intent = Intent(this@RegisterActivity, LoginOtpActivity::class.java)
                         startActivity(intent)
-                        finish() // Kết thúc hoạt động này để không quay lại được
+                        finish()
                     } else {
                         Toast.makeText(this@RegisterActivity, "User đã tồn tại", Toast.LENGTH_LONG).show()
                     }
